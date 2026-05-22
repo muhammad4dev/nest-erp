@@ -114,6 +114,27 @@ Create these in **Finance → Chart of Accounts** first. Codes are examples (Egy
 
 ## Setup steps
 
+### Quick start (recommended): preset bootstrap
+
+1. Open **Finance → Setup → Posting Account Mappings**.
+2. Click **Set up preset accounts** (or call the API below).
+3. The system creates accounts **1020, 1100, 1200, 2100, … 7400** (only if each code is missing) and a **tenant-default** posting mapping wired to them.
+4. Account names include English and Arabic hints (e.g. `Bank — Main (بنك — حساب جاري)`). Rename anytime under **Chart of Accounts**.
+5. Edit the posting mapping to change which account is used for each role, or add branch-specific mappings.
+
+**API (idempotent):**
+
+```http
+POST /finance/config/posting-account-mappings/bootstrap
+Content-Type: application/json
+
+{ "defaultVatRatePercent": 14 }
+```
+
+If a tenant-default mapping already exists, the endpoint returns it without creating duplicates.
+
+### Manual setup (alternative)
+
 ### 1. Chart of accounts
 
 1. Go to **Finance → Chart of Accounts**.
@@ -131,7 +152,9 @@ Create these in **Finance → Chart of Accounts** first. Codes are examples (Egy
 2. **Exchange rates** — add rates for USD (or other document currencies).
 3. On posting mapping, set **realized** and **unrealized** FX accounts before taking foreign-currency payments or running month-end revaluation.
 
-### 4. Tenant default posting mapping
+### 4. Tenant default posting mapping (manual)
+
+Skip this if you used **Set up preset accounts** above.
 
 1. Open **Finance → Setup → Posting Account Mappings**.
 2. Click **Create**.
