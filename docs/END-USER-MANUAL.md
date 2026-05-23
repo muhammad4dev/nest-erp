@@ -517,7 +517,16 @@ POS is optimized for touch screens; use a dedicated terminal where possible. Off
 
 **Menu:** Compliance (if visible)
 
-**E-invoices** — view and manage electronic invoice submission status (e.g. tax authority integration). Used by finance/compliance teams to track accepted/rejected e-invoices.
+| Screen | Purpose |
+| ------ | ------- |
+| **E-invoices** | List ETA submissions (eInvoice and eReceipt), create drafts, submit, refresh status |
+| **ETA settings** | Preprod/prod credentials, PKCS#12 certificate, issuer data, auto-submit toggles |
+
+**Invoice detail** (posted invoices) — ETA section: preview canonical JSON, submit to ETA, refresh status.
+
+**POS** — after sync, eReceipt status may appear in the app bar when auto-submit is enabled.
+
+Setup guide for administrators: [ETA-INTEGRATION-SETUP.md](./ETA-INTEGRATION-SETUP.md)
 
 ---
 
