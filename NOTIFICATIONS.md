@@ -107,6 +107,18 @@ Complete technical documentation including:
 **Debug Why Rules Aren't Triggering**
 → See [Troubleshooting](./backend/docs/notifications-api.md#troubleshooting)
 
+### Accounts receivable (due soon / overdue)
+
+Invoice payment schedule alerts use trigger type `AGING_RECEIVABLE` and events `invoice.due_soon` / `invoice.overdue`.
+
+**Prerequisites:**
+
+1. Run notification control-plane migration (`1768300000000-add-notification-control-plane`) so enum values exist
+2. In **Settings → Notifications → Control Panel**, enable trigger rules for `AGING_RECEIVABLE`
+3. Keep the API process running — daily scan uses `@nestjs/schedule` in the main app (`ScheduleModule`)
+
+Alerts evaluate **posted** invoices (`SENT` / `PARTIALLY_PAID`) per **payment schedule line** due date. Invoices posted before schedule lines existed will not generate alerts until new posts include lines. See [Sales workflow — Phase 4](./backend/docs/workflow-sales-flow.md#4-due--overdue-notifications-optional).
+
 ---
 
 ## 🔐 Permissions
