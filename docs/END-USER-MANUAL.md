@@ -485,9 +485,18 @@ Payments are recorded in the **invoice/bill currency**; the general ledger uses 
 
 **HRMS** → **Contracts** — employment contracts, dates, salary structure links.
 
-### Payroll
+### Payroll, attendance, and timesheets
 
-**HRMS** → **Payroll** — payroll period summary and processing (per your organization’s setup).
+See **[Payroll & attendance guide](./PAYROLL-ATTENDANCE.md)** for full detail.
+
+| Screen | Who | Purpose |
+| ------ | --- | ------- |
+| **Attendance** | HR | Daily present/absent/leave grid; drives monthly wage pro-ration |
+| **Timesheets** | HR | Approve or reject employee-submitted hours |
+| **My timesheet** | Employee | Enter clock in/out (requires linked user on employee record) |
+| **Payroll** | HR / finance | Calculate period, adjustments, scheduled pay date, hold/release, finalize to GL |
+
+On the **employee** form, optionally link a **user account** so the employee can use **My timesheet** without HR entering hours for them.
 
 ### HR reports
 
