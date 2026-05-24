@@ -80,6 +80,7 @@ new Date().toISOString().split("T")[0]; // “today” in UTC, not local
 - `todayCalendarDate()` — today in tenant timezone (`TenantContext`)
 - `formatCalendarDateLocal(date)` / `formatCalendarDateUtc(date)`
 - `toCalendarDateString(value)` / `coerceToCalendarDateString(value)`
+- `formatCalendarDateInTimeZone` in `timezone.util.ts` — always **`en-CA`** for API/DB (never `ar-EG` or other localized digit formats)
 
 Payroll date ranges use **UTC noon** (`T12:00:00Z`) when iterating `YYYY-MM-DD` strings so each civil day is counted once (`payroll-calendar.util.ts`).
 
