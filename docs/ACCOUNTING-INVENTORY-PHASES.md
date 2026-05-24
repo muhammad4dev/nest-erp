@@ -477,10 +477,9 @@ Inventory issue columns use **camelCase** in DB (`issueType`, `issueDate`). Repo
 Not yet implemented (see [roadmap](../backend/docs/roadmap.md)):
 
 - PPV on standard-cost **issues** (not only receipts)
-- Payment refunds / reversals
-- Payment method field on AR/AP payments
-- Multi-currency revaluation
 - Automated role templates including `pay:invoice` / `pay:vendor_bill` for standard roles
+
+**Recently added (roadmap PRs):** sales credit notes, payment reversal (AR/AP), partner credit limits, P&L and balance sheet reports, bank reconciliation MVP, stock reservations, delivery notes, price lists, approval requests, webhooks, ETA outbox, saved reports, payroll GL via posting mapping.
 
 ---
 
