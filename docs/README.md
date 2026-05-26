@@ -2,7 +2,7 @@
 
 Central index for all project documentation. Prefer links here over scattered root-level markdown files.
 
-**Last updated:** May 15, 2026
+**Last updated:** May 26, 2026
 
 ---
 
@@ -10,10 +10,11 @@ Central index for all project documentation. Prefer links here over scattered ro
 
 | Audience | Document |
 | -------- | -------- |
-| **End users (all features)** | **[End user manual](./END-USER-MANUAL.md)** |
+| **End users (all features)** | **[End user manual](./END-USER-MANUAL.md)** — covers sales, procurement, inventory, finance (cost centers, fixed assets, cheques, budgets, treasury, recurring journals, and more), HRMS, POS, and compliance |
 | New developers | [Backend developer index](../backend/docs/DEVELOPER-INDEX.md) |
 | Business / ops | [ERP workflows index](../backend/docs/WORKFLOWS-INDEX.md) |
 | Accounting & inventory (Phases 5–10) | [Accounting & inventory phases](./ACCOUNTING-INVENTORY-PHASES.md) |
+| Post-deploy configuration | [Roadmap post-deploy](./ROADMAP-POST-DEPLOY.md) — RLS tables, feature flags, new permissions |
 | Permissions & UI gating | [RBAC & permissions](./RBAC-AND-PERMISSIONS.md) |
 | Notifications | [Notifications hub](../NOTIFICATIONS.md) |
 

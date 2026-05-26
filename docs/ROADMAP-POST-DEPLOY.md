@@ -17,3 +17,33 @@ New tenant-scoped tables covered by the dynamic RLS script when `tenant_id` is p
 - `approval_requests`, `webhook_subscriptions`, `webhook_delivery_logs`, `webhook_delivery_outbox`
 - `saved_reports`, `eta_submission_outbox`
 - `bank_accounts`, `bank_statement_imports`, `bank_statement_lines`
+- `cost_centers`, `cost_center_distributions`
+- `budgets`, `budget_lines`
+- `fixed_assets`, `depreciation_entries`
+- `cheques`
+- `treasury_safes`, `safe_transfers`
+- `payment_deductions`
+- `advance_payments`, `advance_settlements`
+- `bank_transfers`
+- `credit_card_settlements`
+- `recurring_journals`
+- `custom_financial_statements`, `custom_statement_sections`
+- `receipt_books`
+- `print_templates`
+- `material_requests`, `material_request_lines`
+- `landed_costs`, `landed_cost_allocations`
+- `supplier_products`
+- `supplier_performance_entries`
+- `supplier_quotations`, `supplier_quotation_lines`
+- `purchase_returns`, `purchase_return_lines`
+- `bill_of_materials`, `bom_lines`
+- `reorder_rules`
+- `item_substitutes`
+- `gift_policies`
+- `commission_rules`, `commission_entries`
+- `pricing_rules`
+- `adjustment_notices`
+- `customer_settlements`
+- `sales_returns`, `sales_return_lines`
+- `journal_tags`
+- `data_imports`
