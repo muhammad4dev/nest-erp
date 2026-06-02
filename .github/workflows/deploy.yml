@@ -1,0 +1,74 @@
+name: Secure Production Monorepo Deployment (pnpm)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-monorepo:
+    runs-on: erp-production
+    
+    steps:
+      # 1. Pull parent repository and private submodules via your fine-grained PAT
+      - name: Checkout Parent & Private Submodules
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.DEPENDENCY_ACCESS_TOKEN }}
+          submodules: 'recursive'
+          fetch-depth: 1
+
+      # 2. Initialize pnpm without cloud caching
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11
+          run_install: false
+
+      # 3. Initialize Node.js without cloud caching
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      # ==========================================
+      # BACKEND DEPLOYMENT: NEST.JS API SERVICE
+      # ==========================================
+      - name: Build & Restart NestJS Backend API
+        run: |
+          cd backend
+          
+          echo "DB_ADMIN_USER=${{ secrets.PROD_DB_ADMIN_USER }}" > .env
+          echo "DB_ADMIN_PASS=${{ secrets.PROD_DB_ADMIN_PASS }}" >> .env
+          echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.PROD_DB_PORT }}" >> .env
+          echo "DB_DATABASE=${{ secrets.PROD_DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ secrets.PROD_DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.PROD_JWT_SECRET }}" >> .env
+          echo "PORT=3000" >> .env
+          
+          pnpm install --frozen-lockfile
+          pnpm run build
+          
+          pm2 describe nest-erp-api > /dev/null \
+            && pm2 reload nest-erp-api --update-env \
+            || pm2 start $GITHUB_WORKSPACE/backend/dist/src/main.js --name "nest-erp-api"
+
+      # ==========================================
+      # FRONTEND DEPLOYMENT: REACT ASSETS
+      # ==========================================
+      - name: Build & Push React Frontend to Nginx
+        run: |
+          cd frontend
+          
+          echo "VITE_API_URL=/api/v1" > .env
+          echo "VITE_DEFAULT_TENANT_ID=019e4d9b-7b79-7fc1-9f58-a48e30580369" >> .env
+          echo "VITE_DEFAULT_EMAIL=admin@acme.com" >> .env
+          echo "VITE_DEFAULT_PASSWORD=password123" >> .env
+          
+          pnpm install --frozen-lockfile
+          pnpm run build
+          
+          # Nginx web root folder requires a clean slate so old chunk files don't pile up over time
+          rm -rf /var/www/html/*
+          cp -r ./dist/* /var/www/html/
