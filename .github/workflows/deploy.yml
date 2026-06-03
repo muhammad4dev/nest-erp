@@ -51,8 +51,8 @@ jobs:
           pnpm run build
           
           pm2 describe nest-erp-api > /dev/null \
-            && pm2 reload nest-erp-api --update-env \
-            || pm2 start dist/src/main.js --name "nest-erp-api"
+            && pm2 reload ecosystem.config.cjs --update-env \
+            || pm2 start ecosystem.config.cjs
       # ==========================================
       # FRONTEND DEPLOYMENT: REACT ASSETS
       # ==========================================
