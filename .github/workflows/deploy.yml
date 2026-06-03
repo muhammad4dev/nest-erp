@@ -52,7 +52,7 @@ jobs:
           
           pm2 describe nest-erp-api > /dev/null \
             && pm2 reload nest-erp-api --update-env \
-            || pm2 start $GITHUB_WORKSPACE/backend/dist/src/main.js --name "nest-erp-api"
+            || pm2 start dist/src/main.js --name "nest-erp-api" --cwd "$GITHUB_WORKSPACE/backend"
 
       # ==========================================
       # FRONTEND DEPLOYMENT: REACT ASSETS
