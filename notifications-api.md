@@ -4,11 +4,11 @@
 
 ## Overview
 
-The Nest ERP notification system provides real-time alerts, customizable templates, and trigger-based rule management. Delivery uses SSE (in-app), Web Push (OS banners), and polling fallback.
+The Nest ERP notification system provides real-time alerts, customizable templates, and trigger-based rule management. Delivery uses SSE (in-app) and Web Push (OS banners).
 
 **Key Features:**
 
-- Real-time SSE with keepalive + multi-device polling
+- Real-time SSE with keepalive; refetch on window focus
 - Web Push (VAPID) and rich actions (View, Mark read)
 - Low-stock and aging-receivable alerts; `integration_alert` for integrations
 - Admin templates, trigger rules, manual send (test mode → requester only)

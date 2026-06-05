@@ -178,7 +178,7 @@ Notification Creation (PostgreSQL)
 │ Delivery channels (parallel)                        │
 │  • SSE (+ pg_notify) → bell + toast (app open)      │
 │  • Web Push (VAPID) → OS banner + actions           │
-│  • GET /notifications poll (30s / focus fallback)     │
+│  • Refetch on tab focus (stale cache refresh)         │
 └─────────────────────────────────────────────────────┘
       ↓
 Notification Center + User Preferences
