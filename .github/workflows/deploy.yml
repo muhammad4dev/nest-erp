@@ -45,6 +45,9 @@ jobs:
           echo "DB_USERNAME=${{ secrets.PROD_DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.PROD_JWT_SECRET }}" >> .env
+          echo "VAPID_PUBLIC_KEY=${{ secrets.PROD_VAPID_PUBLIC_KEY }}" >> .env
+          echo "VAPID_PRIVATE_KEY=${{ secrets.PROD_VAPID_PRIVATE_KEY }}" >> .env
+          echo "VAPID_SUBJECT=${{ secrets.PROD_VAPID_SUBJECT }}" >> .env
           echo "PORT=3000" >> .env
           
           pnpm install --frozen-lockfile
@@ -61,6 +64,7 @@ jobs:
           cd frontend
           
           echo "VITE_API_URL=/api/v1" > .env
+          echo "VITE_VAPID_PUBLIC_KEY=${{ secrets.PROD_VAPID_PUBLIC_KEY }}" >> .env
           echo "VITE_DEFAULT_TENANT_ID=019e4d9b-7b79-7fc1-9f58-a48e30580369" >> .env
           echo "VITE_DEFAULT_EMAIL=admin@acme.com" >> .env
           echo "VITE_DEFAULT_PASSWORD=password123" >> .env
