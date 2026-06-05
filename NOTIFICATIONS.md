@@ -46,7 +46,8 @@ Complete technical documentation including:
 - **Data Models** (Notification, Template, Rule, Preference entities)
 - **API Endpoints** (user-facing and admin control panel)
 - **Integration Guide** (adding new notification types)
-- **SSE Implementation** (real-time streaming)
+- **SSE Implementation** (real-time streaming, keepalive, multi-device)
+- **Web Push (VAPID)** and rich notification actions
 - **Code Examples** and testing patterns
 - **Troubleshooting** and performance tips
 
@@ -167,16 +168,23 @@ Who receives the notification: specific user, users in a role, or all users.
 ```
 User Action / Event
       ↓
-Trigger Rule Evaluator
+Trigger Rule Evaluator (or Manual Send / Module hook)
       ↓
 Template Renderer (variable substitution)
       ↓
-Notification Creation
+Notification Creation (PostgreSQL)
       ↓
-SSE Broadcast + Database Storage
+┌─────────────────────────────────────────────────────┐
+│ Delivery channels (parallel)                        │
+│  • SSE (+ pg_notify) → bell + toast (app open)      │
+│  • Web Push (VAPID) → OS banner + actions           │
+│  • GET /notifications poll (30s / focus fallback)     │
+└─────────────────────────────────────────────────────┘
       ↓
-Real-time Notification Center + User Preferences
+Notification Center + User Preferences
 ```
+
+**Deploy notes:** [Web Push env](./backend/docs/notifications-api.md#environment-configuration) | [nginx SSE](./frontend/deploy/nginx-sse.conf) | Migration `1778600000000` for `integration_alert` enum on older DBs
 
 ---
 
@@ -211,6 +219,12 @@ A: Not in the current system. Notifications send immediately when triggered.
 
 **Q: Where are old notifications stored?**
 A: In the database, accessible via notification history. Users can clear them.
+
+**Q: How do desktop/OS notifications work?**
+A: Allow permission via the bell, then Web Push delivers banners with **View** and **Mark read** actions. See [User guide — Desktop & push](./frontend/docs/notifications-user-admin-guide.md#desktop--push-notifications).
+
+**Q: What does Test Mode do on Manual Send?**
+A: Sends only to you so you can verify delivery before a live broadcast. See [Test Mode](./frontend/docs/notifications-user-admin-guide.md#test-mode).
 
 For more, see [FAQ](./frontend/docs/notifications-user-admin-guide.md#faq).
 

@@ -28,6 +28,19 @@ cd /home/m/Projects/nest-erp
 
 ---
 
+## Push & desktop notifications
+
+1. **Generate VAPID keys:** `cd backend && pnpm run generate:vapid-keys` — add to `backend/.env` and `frontend/.env` (`VITE_VAPID_PUBLIC_KEY`)
+2. **Migrate:** `cd backend && pnpm run db:migrate`
+3. **Log in**, click the **bell**, choose **Allow** when prompted
+4. **Send** a test notification from Control Panel (test mode sends to you only)
+5. **Minimize the browser tab** — you should get an OS banner with **View** / **Mark read**
+6. **Verify DB:** `SELECT * FROM push_subscriptions WHERE user_id = '<your-user-id>';`
+
+See [notifications-api — Web Push](./backend/docs/notifications-api.md#web-push-vapid) for API details.
+
+---
+
 ## 📖 Need More Details?
 
 ### For Fastest Path

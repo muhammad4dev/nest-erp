@@ -2,7 +2,7 @@
 
 Central index for all project documentation. Prefer links here over scattered root-level markdown files.
 
-**Last updated:** May 26, 2026
+**Last updated:** June 5, 2026
 
 ---
 
@@ -73,7 +73,9 @@ Clone with submodules: `git clone --recursive <url>`
 | -------- | ----- |
 | [ACCOUNTING-INVENTORY-PHASES.md](./ACCOUNTING-INVENTORY-PHASES.md) | Phases 5–10: GL, procurement, payments, PPV, reconciliation |
 | [RBAC-AND-PERMISSIONS.md](./RBAC-AND-PERMISSIONS.md) | Permission enum, routes, UI gating |
-| [notifications-api.md](../backend/docs/notifications-api.md) | Notifications API & integration |
+| [notifications-api.md](../backend/docs/notifications-api.md) | Notifications API, SSE, Web Push, rich actions |
+| [notifications-user-admin-guide.md](../frontend/docs/notifications-user-admin-guide.md) | Bell, preferences, control panel, desktop alerts |
+| [NOTIFICATIONS.md](../NOTIFICATIONS.md) | Notifications documentation hub |
 
 ---
 
@@ -86,6 +88,7 @@ Clone with submodules: `git clone --recursive <url>`
 | [FEATURES.md](../frontend/FEATURES.md) | Feature map |
 | [docs/ROUTING_AND_I18N.md](../frontend/docs/ROUTING_AND_I18N.md) | Routes & i18n |
 | [docs/route-factory-guide.md](../frontend/docs/route-factory-guide.md) | Route factory |
+| [docs/notifications-user-admin-guide.md](../frontend/docs/notifications-user-admin-guide.md) | Notification center, push/desktop alerts, control panel |
 
 ### Key UI routes (accounting)
 

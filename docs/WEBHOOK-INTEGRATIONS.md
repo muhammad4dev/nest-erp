@@ -70,7 +70,7 @@ Manual **Retry now** resets a row to `PENDING` from the Integrations UI.
 
 When enabled on a subscription:
 
-- **After retries exhausted (DEAD):** users receive an `integration_alert` in-app notification.
+- **After retries exhausted (DEAD):** users receive an `integration_alert` in-app notification (and Web Push if subscribed). Requires notification migrations including `1778600000000-notification-integration-alert-enum-fix` on DBs created via `setup-db` synchronize — see [notifications-api — Troubleshooting](../backend/docs/notifications-api.md#integration_alert-enum-error).
 - **On first failure (`fallback_on_failure`):** optional early alert while retries continue.
 
 Recipients (in order):

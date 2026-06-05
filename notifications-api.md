@@ -1,20 +1,18 @@
 # Notifications API Documentation
 
-> **Note:** This file is kept at the repo root for backward compatibility. The canonical copy is **[backend/docs/notifications-api.md](./backend/docs/notifications-api.md)**. See [docs/README.md](./docs/README.md).
+> **Note:** This file is kept at the repo root for backward compatibility. The **canonical, up-to-date** copy is **[backend/docs/notifications-api.md](./backend/docs/notifications-api.md)**. New in v1.1: Web Push, rich actions, SSE reliability — see canonical doc sections *Web Push (VAPID)*, *Rich push actions*, and *Troubleshooting*.
 
 ## Overview
 
-The Nest ERP notification system provides real-time alerts, customizable templates, and trigger-based rule management. It uses Server-Sent Events (SSE) for real-time delivery and supports user preferences for notification types and thresholds.
+The Nest ERP notification system provides real-time alerts, customizable templates, and trigger-based rule management. Delivery uses SSE (in-app), Web Push (OS banners), and polling fallback.
 
 **Key Features:**
 
-- Real-time SSE streaming for instant notifications
-- Low-stock alerts with configurable thresholds
-- Admin-configurable message templates with variable substitution
-- Trigger rules with event-based automation
-- Manual custom notifications with recipient targeting
-- User preferences for notification control
-- Daily scheduled digest evaluation
+- Real-time SSE with keepalive + multi-device polling
+- Web Push (VAPID) and rich actions (View, Mark read)
+- Low-stock and aging-receivable alerts; `integration_alert` for integrations
+- Admin templates, trigger rules, manual send (test mode → requester only)
+- User preferences (gates push per notification type)
 
 ---
 

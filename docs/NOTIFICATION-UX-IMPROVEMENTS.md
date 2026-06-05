@@ -136,6 +136,7 @@ Error: "Cooldown cannot be negative"
 **Better Test Workflow**
 
 - Toggle between Test Mode and Live Send Mode
+- **Test Mode sends a real notification to the requester only** (not a dry-run log)
 - Clear visual distinction (with icons: 🧪 vs 📤)
 - Confirmation dialog with mode indicator
 - "Test" button changes to "Send Now" based on mode
