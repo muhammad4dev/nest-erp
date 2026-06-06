@@ -2,7 +2,7 @@
 
 Central index for all project documentation. Prefer links here over scattered root-level markdown files.
 
-**Last updated:** June 5, 2026
+**Last updated:** June 6, 2026
 
 ---
 
@@ -64,7 +64,7 @@ Clone with submodules: `git clone --recursive <url>`
 | [WORKFLOWS-INDEX.md](../backend/docs/WORKFLOWS-INDEX.md) | Order-to-cash, purchase-to-pay |
 | [workflow-sales-flow.md](../backend/docs/workflow-sales-flow.md) | Quotes → orders → invoices → payments |
 | [workflow-cash-flow.md](../backend/docs/workflow-cash-flow.md) | AR/AP, GL, reports |
-| [workflow-products-operations.md](../backend/docs/workflow-products-operations.md) | Inventory & products |
+| [workflow-products-operations.md](../backend/docs/workflow-products-operations.md) | Inventory & products — includes business profiles, batch tracking, FEFO, recall, and inventory alerts |
 | [workflow-clients-management.md](../backend/docs/workflow-clients-management.md) | Partners |
 
 ### Domain-specific (implemented)

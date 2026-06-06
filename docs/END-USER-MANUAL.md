@@ -240,6 +240,8 @@ Correct quantities after a count or for write-offs.
 
 **Inventory** → **Settings**
 
+#### General accounting
+
 | Setting | Meaning |
 | ------- | ------- |
 | Inventory method | **Perpetual** (update stock on each transaction) vs periodic |
@@ -247,7 +249,47 @@ Correct quantities after a count or for write-offs.
 | Post COGS on invoice post | When enabled, posting a sales invoice can book COGS |
 | Post inventory on receipt | When enabled, completing receipts posts inventory asset to GL |
 
-Save after changes. Coordinate with accounting before changing costing method.
+#### Business profile & tracking
+
+Choose a **business type** to apply preset traceability rules. You can override individual toggles without changing the profile.
+
+| Business type | Typical use |
+| ------------- | ----------- |
+| **General** | Optional batch/expiry tracking |
+| **Food** | Batch + expiry on receipts, batch on issues, block expired stock, FEFO |
+| **Medical** | Same as food with a 60-day expiry alert window |
+| **Pharma** | Strict batch/expiry with a 90-day expiry alert window |
+
+**Tracking toggles** (effective rules preview):
+
+| Toggle | Effect |
+| ------ | ------ |
+| Require batch on receipt | Lot number mandatory when goods arrive |
+| Require expiry on receipt | Expiry date mandatory on receipt lines |
+| Require batch on issue | Lot must be specified (or auto-assigned) when shipping |
+| Block expired stock | Cannot issue batches past their expiry date |
+| Prefer FEFO | Auto-picks the earliest-expiring batch on issues |
+| Expiry alert window | Default days ahead for expiry reports and alerts |
+
+Click **Reset to profile defaults** to clear custom tracking overrides.
+
+#### Inventory alerts
+
+Configure which alerts are sent to users with stock access:
+
+| Toggle | Effect |
+| ------ | ------ |
+| Daily expiry warnings | Notify when batches are nearing expiry |
+| Daily expired stock alerts | Notify when expired quantity is still on hand |
+| Issue blocked alerts | Immediate alert when an issue is rejected (e.g. expired lot) |
+| Alert cooldown | Minimum hours before the same batch alert repeats |
+| Expiry warning window | Optional override for how many days ahead to warn |
+
+**My inventory alerts** — personal on/off switches for expiry and expired-stock notifications (when enabled by your organization).
+
+**Run alerts now** — manually triggers today's expiry checks (useful after changing settings or for testing).
+
+Save after changes. Coordinate with accounting before changing costing method or business profile on a live tenant.
 
 ### 7.6 Inventory reports
 
@@ -350,6 +392,34 @@ Track products approaching or past their expiry dates:
 - **Per-product expiry view** — drill into a specific product to see individual batch expiry dates and quantities.
 
 Use these reports to plan clearance, returns to vendor, or write-offs before product expires.
+
+When **block expired stock** is enabled in settings, sales invoices and POS will not sell expired batches; completing an issue with an expired lot is rejected and may trigger an **issue blocked** alert.
+
+**Sales order & invoice checks:** Order create/confirm and invoice post use **sellable quantity** (non-expired batches when blocking is on). The order detail page shows **Sellable** and **On Hand** columns; draft invoices with a linked stock issue show a warning and disable **Post** when sellable stock is short.
+
+### 7.15 Batch balances
+
+**Inventory** → **Batch balances**
+
+View on-hand stock **by batch/lot** (not just product totals):
+
+- Product, location, batch number, expiry date
+- Quantity, unit cost, and stock value per lot
+- **Include expired** toggle to show or hide past-expiry batches
+
+Use this screen for lot-level counts, quarantine review, and FEFO verification before picking.
+
+### 7.16 Batch recall
+
+**Inventory** → **Batch recall**
+
+Trace a **batch or lot number** through your supply chain after a supplier recall or quality incident:
+
+1. Enter the batch number (optionally filter by product).
+2. Review **movements** — all receipts and issues that touched the lot.
+3. Review **affected customers** — partners and invoices linked to outbound sales of that batch.
+
+Use the results for customer notification, returns processing, and regulatory reporting.
 
 ---
 

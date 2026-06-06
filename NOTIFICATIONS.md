@@ -120,6 +120,30 @@ Invoice payment schedule alerts use trigger type `AGING_RECEIVABLE` and events `
 
 Alerts evaluate **posted** invoices (`SENT` / `PARTIALLY_PAID`) per **payment schedule line** due date. Invoices posted before schedule lines existed will not generate alerts until new posts include lines. See [Sales workflow — Phase 4](./backend/docs/workflow-sales-flow.md#4-due--overdue-notifications-optional).
 
+### Inventory (expiry & batch alerts)
+
+Regulated inventory alerts use types `expiry_warning` and `expired_stock`, with trigger events `inventory.expiry_daily`, `inventory.expired_daily`, and `inventory.issue_blocked`.
+
+**Prerequisites:**
+
+1. Run migrations `1780500000000` (business type + tracking) and `1780600000000` (notification types + policy column)
+2. Set **Inventory → Settings** business type (FOOD / MEDICAL / PHARMA enable alerts by default)
+3. Tune tenant alert toggles and cooldown under **Inventory → Settings → Inventory alerts**
+4. Keep the API process running — daily scan uses `@nestjs/schedule` at 07:00 (`InventoryNotificationService`)
+
+**Customization layers:**
+
+| Layer | Where | Controls |
+| ----- | ----- | -------- |
+| Business profile | Inventory → Settings → Business type | Base tracking + alert presets |
+| Tenant | Inventory → Settings → Inventory alerts | Enable/disable each alert type, cooldown, expiry window |
+| User | Inventory → Settings → My inventory alerts | Personal opt-in for expiry / expired-stock types |
+| Advanced | Settings → Notifications → Control Panel | Custom templates and trigger rules |
+
+**Manual test:** Inventory → Settings → **Run alerts now**, or `POST /inventory/notifications/run-alerts`.
+
+See [Products & operations — Regulated inventory](./backend/docs/workflow-products-operations.md#regulated-inventory--batch-tracking) for batch validation, FEFO, recall, and API details.
+
 ---
 
 ## 🔐 Permissions
