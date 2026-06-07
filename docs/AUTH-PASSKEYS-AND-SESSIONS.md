@@ -219,6 +219,26 @@ WEBAUTHN_ORIGIN=https://erp.yourdomain.com
 
 IPv4-mapped IPv6 addresses (e.g. `::ffff:127.0.0.1`) are normalized to plain IPv4 in API responses.
 
+### Passkeys and Bitwarden
+
+Passkeys are **scoped to the Relying Party ID (your hostname)**:
+
+| Registered on | Works on |
+| ------------- | -------- |
+| `localhost` | `localhost` only |
+| `nest-erp.example.com` | that hostname only |
+
+A passkey saved in Bitwarden for localhost **cannot** sign in on production, even if the server still lists an old credential in the database.
+
+**Production setup checklist:**
+
+1. `WEBAUTHN_RP_ID` = hostname only (e.g. `nest-erp.muhammad.fr.eu.org`) — no `https://`, no path, no trailing space.
+2. `WEBAUTHN_ORIGIN` = full page origin (e.g. `https://nest-erp.muhammad.fr.eu.org`) — must match the browser address bar exactly.
+3. On production, open **Account Security** → delete any passkeys registered during local dev → **Add passkey** again.
+4. When the browser shows the passkey picker, choose **Bitwarden** (or “Security key”) — not only “This device” / Windows Hello, unless you want a device-bound key.
+
+Bitwarden is a **cross-platform** authenticator. Login options must not restrict `allowCredentials` to `internal`/`hybrid` transports only, or Bitwarden will be hidden.
+
 ---
 
 ## Frontend implementation map
@@ -257,7 +277,9 @@ IPv4-mapped IPv6 addresses (e.g. `::ffff:127.0.0.1`) are normalized to plain IPv
 
 | Problem | Check |
 | ------- | ----- |
-| Passkey registration fails | HTTPS (or localhost), `WEBAUTHN_RP_ID` / `WEBAUTHN_ORIGIN` match browser URL |
+| Passkey works on localhost but not production | Passkeys are **per domain** (`RP ID`). Delete localhost passkeys, re-register on prod. Pick **Bitwarden** in the browser dialog, not only "this device". |
+| Bitwarden not offered at login | Re-register on production; ensure `WEBAUTHN_RP_ID` matches browser hostname exactly; omit old localhost credentials from Account Security |
+| Passkey registration fails | HTTPS (or localhost), `WEBAUTHN_ORIGIN` must match `window.location.origin` exactly (no trailing slash) |
 | Passkey login says no passkeys | Register on Account Security first; same email + tenant |
 | All sessions show `127.0.0.1` | `TRUST_PROXY=1`; tunnel/proxy forwards headers; sign in again after fix |
 | `::ffff:127.0.0.1` in UI | Should display as `127.0.0.1` after normalization; new logins store clean IPs |
