@@ -2,7 +2,7 @@
 
 Central index for all project documentation. Prefer links here over scattered root-level markdown files.
 
-**Last updated:** June 6, 2026
+**Last updated:** June 7, 2026
 
 ---
 
@@ -16,6 +16,7 @@ Central index for all project documentation. Prefer links here over scattered ro
 | Accounting & inventory (Phases 5–10) | [Accounting & inventory phases](./ACCOUNTING-INVENTORY-PHASES.md) |
 | Post-deploy configuration | [Roadmap post-deploy](./ROADMAP-POST-DEPLOY.md) — RLS tables, feature flags, new permissions |
 | Permissions & UI gating | [RBAC & permissions](./RBAC-AND-PERMISSIONS.md) |
+| **Passkeys & sessions** | **[Auth — passkeys & sessions](./AUTH-PASSKEYS-AND-SESSIONS.md)** |
 | Notifications | [Notifications hub](../NOTIFICATIONS.md) |
 
 ---
@@ -73,6 +74,7 @@ Clone with submodules: `git clone --recursive <url>`
 | -------- | ----- |
 | [ACCOUNTING-INVENTORY-PHASES.md](./ACCOUNTING-INVENTORY-PHASES.md) | Phases 5–10: GL, procurement, payments, PPV, reconciliation |
 | [RBAC-AND-PERMISSIONS.md](./RBAC-AND-PERMISSIONS.md) | Permission enum, routes, UI gating |
+| [AUTH-PASSKEYS-AND-SESSIONS.md](./AUTH-PASSKEYS-AND-SESSIONS.md) | Passkeys, active sessions, Cloudflare Tunnel, API |
 | [notifications-api.md](../backend/docs/notifications-api.md) | Notifications API, SSE, Web Push, rich actions |
 | [notifications-user-admin-guide.md](../frontend/docs/notifications-user-admin-guide.md) | Bell, preferences, control panel, desktop alerts |
 | [NOTIFICATIONS.md](../NOTIFICATIONS.md) | Notifications documentation hub |
@@ -99,6 +101,7 @@ Clone with submodules: `git clone --recursive <url>`
 | `/$lang/app/procurement/orders/$orderId` | PO — confirm, receive, create bill |
 | `/$lang/app/finance/gl-reconciliation` | AR/AP subledger vs GL |
 | `/$lang/app/inventory/settings` | Valuation method, standard costs |
+| `/$lang/app/account/security` | Account Security — passkeys & active sessions |
 | `/$lang/app/settings/notifications` | Notification control plane |
 
 ---
@@ -127,6 +130,7 @@ These files predate the `docs/` hub. They remain for history; prefer the canonic
 | `1769100000000` | 7 | Category COGS & inventory GL accounts |
 | `1769200000000` | 8 | `vendor_payments` table |
 | `1769300000000` | 9 | `invoice_payments`, `default_ppv_account_id` |
+| `1780300000000` | Auth | Passkeys (`user_passkeys`), WebAuthn challenges, `refresh_tokens.auth_method` |
 
 Run migrations: `cd backend && pnpm migration:run`
 

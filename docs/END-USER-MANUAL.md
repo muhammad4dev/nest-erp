@@ -2,8 +2,8 @@
 
 A practical guide to every major feature in the web application. This manual is written for **business users** (sales, warehouse, accounting, HR, administrators)—not developers.
 
-**Last updated:** May 26, 2026  
-**Related:** [Documentation index](./README.md) · [Accounting features (technical)](./ACCOUNTING-INVENTORY-PHASES.md)
+**Last updated:** June 7, 2026  
+**Related:** [Documentation index](./README.md) · [Passkeys & sessions](./AUTH-PASSKEYS-AND-SESSIONS.md) · [Accounting features (technical)](./ACCOUNTING-INVENTORY-PHASES.md)
 
 ---
 
@@ -36,10 +36,27 @@ A practical guide to every major feature in the web application. This manual is 
 ### Signing in
 
 1. Open the ERP URL provided by your organization.
-2. Enter your **email** and **password**.
-3. After login you land on the **Dashboard** (home).
+2. Enter your **Tenant ID**, **email**, and **password**.
+3. Click **Sign In**. After login you land on the **Dashboard** (home).
+
+**Sign in with passkey (optional):** If you have registered a passkey, enter Tenant ID and email, then click **Sign in with passkey** and complete your device prompt (fingerprint, Face ID, PIN, or security key). Password login always remains available.
 
 If you cannot log in, contact your administrator to verify your account and tenant.
+
+### Account Security (passkeys and sessions)
+
+**Menu:** Top bar → **Account Security**
+
+Use this page to:
+
+| Area | What you can do |
+| ---- | ---------------- |
+| **Passkeys** | Register a new passkey, see registered devices, remove passkeys you no longer use |
+| **Active sessions** | See where you are signed in (device, IP, sign-in method), revoke a session, or **Sign out all devices** |
+
+The row labeled **This device** is your current browser session. Revoking it signs you out immediately.
+
+See [Passkeys & sessions guide](./AUTH-PASSKEYS-AND-SESSIONS.md) for details.
 
 ### Language and display
 
@@ -1194,6 +1211,7 @@ See [NOTIFICATIONS.md](../NOTIFICATIONS.md) for admin walkthroughs.
 - List users, filter by role.
 - Open a user profile; edit details and assignments (admin).
 - Create users (admin) and reset access as per your IT policy.
+- On a user profile, administrators can view **Passkeys** and **Active sessions** and revoke them when offboarding or securing a compromised account (requires `update:user` to revoke).
 
 ### Roles
 

@@ -17,6 +17,7 @@ This is the monorepo for the Nest ERP project, containing both the backend and f
 | **End user manual (all features)** | [docs/END-USER-MANUAL.md](./docs/END-USER-MANUAL.md) |
 | Accounting & inventory (Phases 5–10) | [docs/ACCOUNTING-INVENTORY-PHASES.md](./docs/ACCOUNTING-INVENTORY-PHASES.md) |
 | RBAC & UI permissions | [docs/RBAC-AND-PERMISSIONS.md](./docs/RBAC-AND-PERMISSIONS.md) |
+| Passkeys & session management | [docs/AUTH-PASSKEYS-AND-SESSIONS.md](./docs/AUTH-PASSKEYS-AND-SESSIONS.md) |
 | Business workflows | [backend/docs/WORKFLOWS-INDEX.md](./backend/docs/WORKFLOWS-INDEX.md) |
 | Developer reference | [backend/docs/DEVELOPER-INDEX.md](./backend/docs/DEVELOPER-INDEX.md) |
 | Notifications | [NOTIFICATIONS.md](./NOTIFICATIONS.md) |
