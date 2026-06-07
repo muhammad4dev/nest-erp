@@ -74,7 +74,11 @@ jobs:
           echo "VITE_DEFAULT_PASSWORD=password123" >> .env
           
           pnpm install --frozen-lockfile
+          export VITE_APP_URL="${{ secrets.PROD_WEBAUTHN_ORIGIN }}"
           pnpm run build
+          
+          grep -q 'og:image" content="https://' dist/index.html \
+            || { echo "ERROR: og:image must use an absolute https URL. Set PROD_WEBAUTHN_ORIGIN GitHub secret."; exit 1; }
           
           # Nginx web root folder requires a clean slate so old chunk files don't pile up over time
           rm -rf /var/www/html/*
