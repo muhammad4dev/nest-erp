@@ -237,6 +237,8 @@ A passkey saved in Bitwarden for localhost **cannot** sign in on production, eve
 3. On production, open **Account Security** → delete any passkeys registered during local dev → **Add passkey** again.
 4. When the browser shows the passkey picker, choose **Bitwarden** (or “Security key”) — not only “This device” / Windows Hello, unless you want a device-bound key.
 
+**Device names:** On registration, the server reads the authenticator **AAGUID** (when available) to label passkeys as `Bitwarden`, `1Password`, `Windows Hello`, `iCloud Keychain`, etc. Users can optionally override with a custom name in Account Security.
+
 Bitwarden is a **cross-platform** authenticator. Login options must not restrict `allowCredentials` to `internal`/`hybrid` transports only, or Bitwarden will be hidden.
 
 ---
