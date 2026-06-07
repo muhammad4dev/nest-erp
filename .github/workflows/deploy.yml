@@ -48,6 +48,9 @@ jobs:
           echo "VAPID_PUBLIC_KEY=${{ secrets.PROD_VAPID_PUBLIC_KEY }}" >> .env
           echo "VAPID_PRIVATE_KEY=${{ secrets.PROD_VAPID_PRIVATE_KEY }}" >> .env
           echo "VAPID_SUBJECT=${{ secrets.PROD_VAPID_SUBJECT }}" >> .env
+          echo "WEBAUTHN_RP_ID=${{ secrets.PROD_WEBAUTHN_RP_ID }}" >> .env
+          echo "WEBAUTHN_RP_NAME=${{ secrets.PROD_WEBAUTHN_RP_NAME }}" >> .env
+          echo "WEBAUTHN_ORIGIN=${{ secrets.PROD_WEBAUTHN_ORIGIN }}" >> .env
           echo "PORT=3000" >> .env
           
           pnpm install --frozen-lockfile
