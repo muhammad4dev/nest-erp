@@ -67,6 +67,7 @@ jobs:
           cd frontend
           
           echo "VITE_API_URL=/api/v1" > .env
+          echo "VITE_APP_URL=${{ secrets.PROD_WEBAUTHN_ORIGIN }}" >> .env
           echo "VITE_VAPID_PUBLIC_KEY=${{ secrets.PROD_VAPID_PUBLIC_KEY }}" >> .env
           echo "VITE_DEFAULT_TENANT_ID=019e4d9b-7b79-7fc1-9f58-a48e30580369" >> .env
           echo "VITE_DEFAULT_EMAIL=admin@acme.com" >> .env
