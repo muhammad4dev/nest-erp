@@ -3,6 +3,7 @@
 ## Stack
 - React 19, Vite 8, TanStack Router/Query/Form, Zustand 5, MUI 7, Axios, i18next, Zod 4, `@simplewebauthn/browser`.
 - **No react-hook-form.**
+- React hooks ESLint (`set-state-in-effect`, `refs`) — see `05-react-hooks-eslint.md`.
 
 ## Zustand Stores
 

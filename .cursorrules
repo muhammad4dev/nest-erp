@@ -92,6 +92,11 @@
 - Theme: `createAppTheme()` + `ThemeProvider` reads `usePreferencesStore` (light/dark, RTL/LTR).
 - Notifications: `useNotification()` — not raw `useNotificationStore` in components.
 
+### React Hooks ESLint (React 19)
+- No `setState` in `useEffect` — derive during render, dialog `onEntered`/`handleClose`, or render-time key reset.
+- No `ref.current` in JSX or during render — use `useState` for displayed values; update refs in effects.
+- See `docs/skills/05-react-hooks-eslint.md` for approved patterns.
+
 ### Routing & i18n
 - TanStack Router; URL pattern: `/:lang/app/<feature>`.
 - Auth-gated router swap: `upgradeRouterWithAppRoutes()` / `downgradeRouterForPublicAccess()`.

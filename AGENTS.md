@@ -10,6 +10,7 @@ Monorepo: `backend/` (NestJS) + `frontend/` (React/Vite). Global rules in `.curs
 | Backend entities, DTOs, auth, idempotency, interceptors | `docs/skills/02-backend-patterns.md` |
 | Frontend stores, React Query, forms, MUI, i18n, routing | `docs/skills/03-frontend-patterns.md` |
 | Cross-module flows (Sales↔Inventory↔Finance, POS, HRMS) | `docs/skills/04-domain-logic.md` |
+| React hooks ESLint (`set-state-in-effect`, `refs`) | `docs/skills/05-react-hooks-eslint.md` |
 
 ## Quick Routing
 
@@ -31,6 +32,7 @@ Monorepo: `backend/` (NestJS) + `frontend/` (React/Vite). Global rules in `.curs
 - **New feature page** → `features/<domain>/` + `scripts/generate-feature.ts`
 - **i18n/RTL** → `lib/i18n/` + `frontend/.cursor/skills/fix-i18n-tsc-crash/` (typed-key fixes)
 - **RBAC UI** → `lib/rbac/` + `IfAllowed` / `RequireAuth`
+- **Dialogs / hooks / visibility logic** → `05-react-hooks-eslint.md`
 
 ## Non-Negotiables
 - All API requests: `x-tenant-id` header; JWT tenant must match.
@@ -38,6 +40,9 @@ Monorepo: `backend/` (NestJS) + `frontend/` (React/Vite). Global rules in `.curs
 - Mutating POSTs (Finance/Sales/Procurement/Inventory): `@Idempotent()` + `Idempotency-Key`.
 - Frontend server state: TanStack Query + `queryKeys` factory — not Zustand.
 - POS sync creates `SalesOrder` only — no auto-invoice/stock-issue.
+
+## Cursor Rules (auto-attach by glob)
+- `.cursor/rules/frontend-react-hooks.mdc` — `frontend/src/**/*.{ts,tsx}`
 
 ## Existing Cursor Skills
 - `frontend/.cursor/skills/fix-i18n-tsc-crash/` — unsafe i18n key patterns

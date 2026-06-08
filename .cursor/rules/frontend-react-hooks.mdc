@@ -1,0 +1,27 @@
+---
+description: React 19 hooks ESLint — no setState in effects, no refs during render
+globs: frontend/src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React Hooks ESLint
+
+Full patterns: `docs/skills/05-react-hooks-eslint.md`
+
+## Errors to avoid
+- `react-hooks/set-state-in-effect` — no sync `setState` in `useEffect`/`useLayoutEffect` (incl. via `close()` helpers)
+- `react-hooks/refs` — no `ref.current` read/write during render
+
+## Use instead
+- **Visibility/flags** — derive during render; local dismiss flag for user actions
+- **Dialog reset** — `slotProps.transition.onEntered` + `handleClose`; render-time `dialogKey` reset for selection state
+- **Props → local state** — render-time key check (`if (id !== syncedId) { setSyncedId(id); setField(...) }`)
+- **JSX display values** — `useState`, not refs
+- **Custom hooks** — update ref mirrors in `useEffect`; derive inactive status; `cleanup()` in effect, not `close()` if it sets state
+
+## High-risk files
+`*FormDialog.tsx`, `*PermissionsDialog.tsx`, `*RoleDialog.tsx`, `*SetupPrompt.tsx`, `shared/hooks/use*.ts`
+
+## Do not
+- `eslint-disable` these rules in feature code
+- Add `useEffect` to copy props into state when render-time sync or `form.reset` suffices
