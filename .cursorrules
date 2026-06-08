@@ -1,0 +1,111 @@
+# nest-erp AI Rules
+
+## Scope
+- Monorepo: `backend/` (NestJS), `frontend/` (React/Vite). Separate pnpm apps, not a workspace root.
+- API prefix: `api/v1`. All requests require `x-tenant-id` header.
+- Do not explain standard library/framework defaults. Output only what changes.
+
+## Output Constraints
+- Modified code blocks only; omit unchanged surrounding code (use `// ...` sparingly).
+- No tutorial prose, no "here's how X works" for Nest/React/MUI basics.
+- No duplicate file headers or re-stating task requirements.
+- When editing: name exact file paths; prefer minimal diffs.
+- Do not add tests unless requested.
+- Do not create commits unless requested.
+
+## Backend (NestJS)
+
+### Structure
+- Domain modules: `backend/src/modules/<domain>/` — `*.module.ts`, `*.controller.ts`, `*.service.ts`, `entities/`, `dto/`, `services/`, `controllers/`.
+- Auth: `backend/src/auth/` (not under `modules/`).
+- Cross-cutting: `backend/src/common/` (`@Global()` CommonModule).
+- Identity: `backend/src/modules/identity/` (`@Global()`).
+
+### Entities
+- Extend `BaseEntity` (`id` uuid, `tenantId`, `createdAt`, `updatedAt`, `@VersionColumn()`).
+- DB columns: snake_case via `name:`; TS properties: camelCase.
+- `synchronize: false` — schema changes via migrations only.
+- App DB role enforces RLS; admin role for `migration:run`.
+
+### Multi-Tenancy (mandatory)
+- Every tenant-scoped write runs inside `TenantTransactionInterceptor` transaction.
+- RLS session vars set via `set_config('app.current_tenant_id', ...)` and `app.current_user_id`.
+- Inject repos → assign `this.repo = wrapTenantRepository(repoBase)`.
+- Manual transactions: `withTenantTransaction(dataSource, ...)` or `createTenantQueryRunner()`.
+- Do not rely on manual `WHERE tenant_id =` alone; RLS is the isolation layer.
+- JWT `tenantId` must match `x-tenant-id` when both present.
+
+### DTOs & Validation
+- `class-validator` + `class-transformer` (`@IsUUID`, `@ValidateNested`, `@Type`).
+- `@ApiProperty` / `@ApiPropertyOptional` on all DTO fields.
+- DTOs in `dto/` per module; nested subfolders for complex domains (e.g. `auth/dto/passkey/`).
+- Global `ValidationPipe({ transform: true })`; route params: `ParseUUIDPipe` (inventory routes: `version: '7'`).
+- No custom validation pipes.
+
+### Controllers & Guards
+- Stack: `@UseGuards(JwtAuthGuard, PermissionsGuard)` + `@RequirePermissions('action:resource')`.
+- Mutating POSTs on Finance/Sales/Procurement/Inventory: add `@Idempotent()` + require `Idempotency-Key` header.
+- Permissions format: `action:resource` (e.g. `create:journal`, `read:stock`).
+
+### Services
+- Direct cross-module calls via Nest DI imports — no EventEmitter.
+- Async external notifications: `WebhookEventHubService.emit()` / `WebhookDispatcherService.dispatch()`.
+- Complex writes inside interceptor transaction or `withTenantTransaction()`.
+
+### Naming
+- Files: kebab-case + suffix (`journal-entry.service.ts`).
+- Classes: PascalCase + suffix (`JournalEntryService`).
+- Enums: PascalCase type, UPPER values (`JournalStatus.DRAFT`).
+
+## Frontend (React/Vite)
+
+### Structure
+- `src/features/<domain>/` — `{domain}Routes.ts`, `pages/`, `components/`, `schemas/`.
+- `src/lib/` — api, auth, i18n, rbac, theme.
+- `src/stores/` — global Zustand; feature stores in feature folder (e.g. `pos/posStore.ts`).
+- `src/shared/` — layouts, UI primitives, form toolkit.
+- Path alias: `@/` → `src/`.
+
+### State
+- Global Zustand: `useAuthStore`, `usePreferencesStore`, `useNotificationStore`, `useTenantTimezoneStore`.
+- Persist via `zustand/middleware` `persist` + `partialize`.
+- Imperative access in interceptors: `useAuthStore.getState()`.
+- Server state: TanStack Query only — no duplicating API data in Zustand.
+
+### React Query
+- Keys: `queryKeys` factory in `src/lib/api/query-keys.ts` — always use, never ad-hoc strings.
+- Queries: `src/lib/api/queries/use{Domain}.ts`; mutations: `src/lib/api/mutations/use{Domain}.ts`.
+- Defaults: 5min stale/gc, `retry: 1`, `refetchOnWindowFocus: false`.
+- Mutations: `onSuccess` → `queryClient.invalidateQueries({ queryKey: queryKeys.<domain>.all })`.
+- API client: `apiClient` from `src/lib/api/client.ts` — auto-attaches `Authorization`, `x-tenant-id`, `Accept-Language`, `Idempotency-Key` on POST.
+
+### Forms
+- TanStack Form + Zod — NOT react-hook-form.
+- Use `useAppForm` / `withForm` from `src/shared/form/useAppForm.ts`.
+- Pattern: `<form.AppForm><form.TextField name="..." /></form.AppForm>`.
+- Zod schemas in `features/*/schemas/` or inline.
+
+### UI (MUI v7)
+- Page shell: `PageContainer` + `PageHeader`.
+- Dialogs: `*FormDialog.tsx`, `ResponsiveDialog`.
+- RBAC: `IfAllowed`, `RequireAuth` from `src/lib/rbac/components.tsx`.
+- Theme: `createAppTheme()` + `ThemeProvider` reads `usePreferencesStore` (light/dark, RTL/LTR).
+- Notifications: `useNotification()` — not raw `useNotificationStore` in components.
+
+### Routing & i18n
+- TanStack Router; URL pattern: `/:lang/app/<feature>`.
+- Auth-gated router swap: `upgradeRouterWithAppRoutes()` / `downgradeRouterForPublicAccess()`.
+- Navigation: `{domain}ModuleNav` registered in `app/navigation/moduleRegistry.ts`.
+- i18n: `useTranslation()` + `useI18nFormat()` for numbers/dates/currency.
+- `LocaleSwitcher` + `langRoute.beforeLoad` sync URL ↔ locale ↔ direction.
+- Typed keys via `src/lib/i18n/i18next.d.ts`; languages: `en`, `ar` (RTL).
+
+### Naming
+- Pages: `{Name}Page.tsx`; hooks: `use{Entity}`, `use{Action}{Entity}`.
+- Permissions mirror backend: `action:resource` in `lib/rbac/backend-permissions.ts`.
+
+## Cross-Cutting
+- Refer to `docs/skills/` for domain flows and module dependency map.
+- POS sync creates `SalesOrder` only — no auto-invoice/stock-issue.
+- `InventoryPostingService` is the GL bridge for stock movements.
+- `ApprovalService` (Sales-owned) gates Invoice and VendorBill posting.
