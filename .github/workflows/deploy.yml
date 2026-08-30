@@ -1,6 +1,12 @@
 name: Secure Production Monorepo Deployment (pnpm)
 
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
   push:
     branches: [ main ]
 
@@ -16,6 +22,7 @@ jobs:
           token: ${{ secrets.DEPENDENCY_ACCESS_TOKEN }}
           submodules: 'recursive'
           fetch-depth: 1
+          ref: ${{ inputs.branch || github.ref }}
 
       # 2. Initialize pnpm without cloud caching
       - name: Setup pnpm
